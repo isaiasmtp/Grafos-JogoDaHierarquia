@@ -1,2 +1,4 @@
 # Grafos-JogoDaHierarquia
-O objetivo deste jogo é descobrir que vertice é a raiz de uma árvore.
+O objetivo deste jogo é descobrir que vertice é a raiz de uma árvore. O jogo recebe como entrada uma árvore (carregada a partir de arquivo CSV ou GML) e um número n de tentativas. Internamente, o jogo escolhe aleatoriamente um vértice para ser a raiz e dá uma orientação a árvore. O jogador então tem n chances de tentar adivinhar qual vértice é a raiz. A cada tentativa, caso o vértice escolhido não seja a raiz, o programa indica que vértice é o seu pai e que vértices são seus filhos. Caso o vértice escolhido seja a raiz, então o jogo se encerra com vitória. Após n tentativas, caso o jogador não tenha acertado, o jogo se encerra com derrota.
+Ao encerrar, o jogo apresenta a árvore orientada e o vértice raiz.
+O programa deve fazer crítica de dados, ou seja, deve observar se o grafo recebido como entrada é uma árvore.
