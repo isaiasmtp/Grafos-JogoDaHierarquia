@@ -1,7 +1,10 @@
 package jogo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
@@ -14,25 +17,21 @@ import util.GraphUtil;
 public class Main {
 
 	public static void main(String[] args) {
-		//Criar Grafo
+		//Criar Grafos
 		Graph<String,DefaultEdge> graph = 
 				new SimpleGraph <String,DefaultEdge> (DefaultEdge.class);
+		
+		 Graph<String, DefaultEdge> directedGraph =
+	                new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
 	
-		
-		
 		//Quantidade de tentativas - DEVE SER SETADO 
 		int tentativas = 4;
-		
-		
 		
 		//Arquivo CSV de Entrada
         String filename = 	"./src/graphs/graph.csv";
         
-        
         //Gera Grafo
-        generateGraph(filename, graph);
-		
-        
+        generateGraph(filename, graph);	      
         
         //Cria um ArrayList de Vertices
         ArrayList<String> vertices = new ArrayList(graph.vertexSet());
@@ -44,40 +43,32 @@ public class Main {
         //Vertice 8 mocado para testes 
         //TODO
         raiz = "8";
-        
-        vertices.remove(raiz);
-        vertices.add(0,raiz);
-
-        Graph<String, DefaultEdge> directedGraph =
-                new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
-        
+            
         //Adiciona vertices no Grafo direcional        
         for (int i = 0; i < vertices.size(); i++) {
         	 directedGraph.addVertex( vertices.get(i));
         }
                             
-        //Pecorrer array de vertices e insertir vertices no grafo direcional;]
-        
-       
-       
-  	
+       //Pecorrer array de vertices e insertir vertices no grafo direcional;]
     	for(int i = 0; i < vertices.size(); i++) {
-    		ArrayList arestas = new ArrayList(graph.edgesOf(vertices.get(i)));
-    		
-    		String[] aresta = arestas.toArray()[0].toString().replace("(", "").replace(")","").split(" : ");
-    		System.out.printf(aresta[0] +""+aresta[1] + "\n");
+    		String[] aresta = new String[2];
+    		for(int j=0;j < graph.edgesOf(vertices.get(i)).size(); j++) {
+    			aresta = graph.edgesOf(vertices.get(i)).toArray()[j].toString().replace("(", "").replace(")","").split(" : ");   
+    			 directedGraph.addEdge(aresta[0], aresta[1]);
+    		}
     	}
-        
-        
-        
-//            directedGraph.addEdge("a", "b");
-//            directedGraph.addEdge("b", "d");
-           
+    	
+    	Set <DefaultEdge> ArestasDaRaiz = new HashSet <DefaultEdge>(directedGraph.edgesOf(raiz));
+    	directedGraph.removeVertex(raiz);
+//    	System.out.println(ArestasDaRaiz);        
+
+    	
+
 
         
 //    	System.out.println("Vertices: " + directedGraph.edgeSet());        
 //		System.out.println("Vertices: " + graph.vertexSet());
-//		System.out.println("Arestas: " + graph.edgesOf("7"));
+//		System.out.println("Arestas: " + graph.edgeSet());
 	}
 	
 	private static void generateGraph(String filename, Graph<String, DefaultEdge> csvGraph) {
